@@ -47,6 +47,15 @@ initialModel =
         , { id = "3"
           , url = "3.jpeg"
           }
+        , { id = "4"
+          , url = "4.jpeg"
+          }
+        , { id = "5"
+          , url = "5.jpeg"
+          }
+        , { id = "6"
+          , url = "6.jpeg"
+          }
         ]
     , selectedPhotoId = "1"
     }

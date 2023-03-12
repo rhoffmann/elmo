@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "elm-watch": "^1.1.2"
+  },
+  "scripts": {
+    "dev": "elm-watch hot",
+    "build:": "elm-watch make --optimize"
+  }
+}
