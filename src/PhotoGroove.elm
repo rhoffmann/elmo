@@ -2,9 +2,15 @@ module PhotoGroove exposing (main)
 
 import Array exposing (Array)
 import Browser
-import Html exposing (Html, div, h1, img, select, text)
+import Html exposing (Html, button, div, h1, img, select, text)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
+
+
+type ThumbnailSize
+    = Small
+    | Medium
+    | Large
 
 
 type alias Photo =
@@ -31,10 +37,12 @@ viewThumbnail selectedId thumb =
     img [ src (urlPrefix ++ thumb.url), classList [ ( "selected", selectedId == thumb.id ) ], onClick { description = "PHOTO_CLICKED", data = thumb.id } ] []
 
 
+findById : List { a | id : String } -> String -> Maybe { a | id : String }
 findById list id =
     List.head (List.filter (\item -> item.id == id) list)
 
 
+maybeSelectedImage : List Photo -> String -> Html Msg
 maybeSelectedImage photos selectedId =
     case findById photos selectedId of
         Just photo ->
@@ -48,6 +56,9 @@ view : Model -> Html Msg
 view model =
     div [ class "content" ]
         [ h1 [] [ text "PhotoGroove" ]
+        , button
+            [ onClick { description = "SURPRISE_ME_CLICKED", data = "" } ]
+            [ text "Surprise Me!" ]
         , div [ id "thumbnails" ] (List.map (viewThumbnail model.selectedPhotoId) model.photos)
         , maybeSelectedImage model.photos model.selectedPhotoId
         ]
@@ -86,11 +97,15 @@ photoArray =
 
 update : Msg -> Model -> Model
 update msg model =
-    if msg.description == "PHOTO_CLICKED" then
-        { model | selectedPhotoId = msg.data }
+    case msg.description of
+        "PHOTO_CLICKED" ->
+            { model | selectedPhotoId = msg.data }
 
-    else
-        model
+        "SURPRISE_ME_CLICKED" ->
+            { model | selectedPhotoId = "2" }
+
+        _ ->
+            model
 
 
 main =
